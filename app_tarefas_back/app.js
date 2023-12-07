@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 const Tarefa = require('./models/tarefa');
 const Usuario = require('./models/usuario');
 sequelize.sync();
-// comentario kjhkjkjhkh
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

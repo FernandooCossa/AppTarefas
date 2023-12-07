@@ -89,7 +89,7 @@ router.put('/:id', async (req, res) => {
 
 //DELETE Deleta uma tarefa pelo ID
 router.delete('/:id', async (req, res) => {
-    sequelize.query(`DELETE FROM tarefas WHERE id = ${req.params.id}`)
+    sequelize.query(`DELETE FROM tarefas WHERE idtarefas = ${req.params.id}`)
     .then(([results, metadata]) => {
         if(metadata.affectedRows === 0){
             res.status(404).json({
