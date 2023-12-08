@@ -26,13 +26,23 @@ useEffect(() => {
 },[]);
 
 const filtrarLista = async (campos) => {
-    try{
-        const lista = await api.get(`tarefas/filtro/${campos.palavra}`);
-        lista.data.length
-        ? setTarefas(lista.data)
-        : alert("Não há tarefas cadastradas com a palavra chave pesquisada");
-    }catch(error){
-        alert(`Erro: ..Não foi possível obter os dados: ${error}`);
+    try {
+        const response = await api.get(`tarefa/filtro/${campos.palavra}`);
+        if (response.status === 200) {
+            const lista = response.data;
+            
+            if (lista.success) {
+                setTarefas(lista.tarefa);
+            } else {
+                alert("Não há tarefas cadastradas com a palavra chave pesquisada");
+            }
+         } else {
+          alert(`Erro na solicitação: ${response.statusText}`);
+         }
+       
+    } catch (error) {
+        
+        alert("Não há tarefas cadastradas com a palavra chave pesquisada");
     }
 }
 
@@ -45,7 +55,7 @@ const excluir = async(id,titulo) => {
         await api.delete(`tarefa/${id}`);
         //formar uma nova lista de tarefas sem a tarefa que foi excluida
         setTarefas(tarefas.filter(Tarefas => tarefas.id !== id));
-        
+        location.reload(); // serve para atualizar a pagina apos excluir
     }catch(error){
         alert(`Erro: ..Não foi possível excluir a tarefa ${titulo}: ${error}`);
     }
@@ -60,12 +70,11 @@ const alterar = async (id,titulo,index) => {
     }
     try{//captura os erros 
         //chamando o backend e passando os dados
+        console.log(`status: ${novoStatus}`);
         await api.put(`tarefa/${id}`,{status: novoStatus});
-        const TarefasAtualizadas = [...tarefas];
-        const indiceTarefas = TarefasAtualizadas.findIndex(Tarefas => tarefa.idtarefas === id);
-        TarefasAtualizadas[indiceTarefas].status = novoStatus;
-        setTarefas(TarefasAtualizadas);
+        
         obterLista();
+        location.reload();
     }catch(error){
         alert(`Erro: ..Não foi possível alterar a tarefa ${titulo}: ${error}`);
     }

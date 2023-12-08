@@ -43,16 +43,7 @@ const cadastrarUsuario = () => {
                         <input type="password" className="form-control" id="senha"
                         required {...register("senha")}/>
                 </div>
-                <div className="form-group mt-2">
-                    <label htmlFor="createdAt">Data Criação</label>
-                        <input type="date" className="form-control" id="createdAt"
-                        required {...register("createdAt")}/>
-                </div>
-                <div className="form-group mt-2">
-                    <label htmlFor="updatedAt">Data Atualização</label>
-                        <input type="date" className="form-control" id="updatedAt"
-                        required {...register("updatedAt")}/>
-                </div>
+            
                 <input type="submit" className="btn btn-primary mt-3"
                 value="Enviar" />
                 <input type="reset" className="btn btn-danger mt-3 ms-3"
