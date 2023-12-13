@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const usuarioRouter = require('./routes/usuario');
 const tarefaRouter = require('./routes/tarefas');
+var loginRouter = require('./routes/login');
 const app = express();
 const PORT =  3001;
 const { Sequelize } = require('sequelize');
@@ -31,7 +32,7 @@ app.use(cookieParser());
 // Configuração das rotas para os recursos de usuário e tarefa
 app.use('/usuario', usuarioRouter);
 app.use('/tarefa', tarefaRouter);
-
+app.use('/login', loginRouter);
 // Inicialização do servidor na porta especificada
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

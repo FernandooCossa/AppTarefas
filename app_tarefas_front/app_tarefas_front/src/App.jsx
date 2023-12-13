@@ -1,26 +1,45 @@
-//import './App.css';
-//import MenuSuperior from './components/MenuSuperior';
-import cadastrar_tarefas from './components/cadastrar_tarefa';
-import cadastrar_usuario from './components/cadastrar_usuario';
-import manutencao_tarefas from './components/manutencao_tarefas';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+// Importando os componentes de cadastrar tarefas, cadastrar usuário e manutenção de tarefas
+import Menu_Superior from './components/MenuSuperior';
+import CadastrarTarefas from './components/cadastrar_tarefa';
+import CadastrarUsuario from './components/cadastrar_usuario';
+import ManutencaoTarefas from './components/manutencao_tarefas';
+import FormularioLogin from './components/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import ManutencaoLivros from './components/ManutencaoLivros';
-//import ResumoLivros from './components/ResumoLivros';
-const App = () => {
-  return(  //tudo que vai aqui no return é o que aparece na aplicação
-    <>
-    <Router>  
-      <Routes>
-        <Route exact path="/tarefa" Component={cadastrar_tarefas}/>
-        <Route exact path="/usuario" Component={cadastrar_usuario}/>
-        <Route exact path="/manutencao" Component={manutencao_tarefas}/>
-      </Routes>
+import { AuthProvider, useAuth } from './components/AuthProvider';
+
+// Importando as bibliotecas necessárias para roteamento
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
+// Importando estilos do Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const ProtectedRoute = ({ children }) => {
+  const { autenticado } = useAuth();
+  return autenticado ? children : <Navigate to="/login" />;
+};
+
+const RoutesWithAuth = () => {
+  const { autenticado } = useAuth();
+
+  return (
+      <Router>
+          {autenticado && <Menu_Superior />}
+          <Routes>
+              <Route path="/login" element={<FormularioLogin />} />
+              <Route path="/" element={autenticado ? <Navigate to="/tarefa" /> : <FormularioLogin />} />
+              <Route path="/tarefa" element={<ProtectedRoute><CadastrarTarefas /></ProtectedRoute>} />
+              <Route path="/manutencao" element={<ProtectedRoute><ManutencaoTarefas /></ProtectedRoute>} />
+              <Route path="/user" element={<ProtectedRoute><CadastrarUsuario /></ProtectedRoute>} />
+          </Routes>
       </Router>
-    </>
-  )
-}
-//Serão criados 2 componentes para essa aplicação
-//MenuSuperior.js
-//InclusaoLivros.js
+  );
+};
+
+const App = () => {
+  return (
+      <AuthProvider>
+          <RoutesWithAuth/>
+      </AuthProvider>
+  );
+};
 export default App;

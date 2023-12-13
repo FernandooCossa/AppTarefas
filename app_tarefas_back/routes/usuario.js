@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/usuario');
 const sequelize = require('../sequelize');
+const bcrypt = require('bcrypt');
 
 // Sincroniza o modelo 'Usuario' com o banco de dados
 Usuario.sync();
@@ -50,23 +51,25 @@ router.get('/:id', async (req, res) => {
 
 // Rota POST: Cria um usuário
 router.post('/', async (req, res) => {
-    // Insere um novo usuário na tabela 'usuarios'
-    sequelize.query(
-        `INSERT INTO usuarios (usarname, email, senha) VALUES (?, ?, ?)`,
-        { replacements: [req.body.usarname, req.body.email, req.body.senha]}
+    try {
+        // Encriptar a senha
+        console.log(req.body.usarname, req.body.email,req.body.senha)
+        const senhaEncriptada = await bcrypt.hash(req.body.senha, 10); // 10 é o número de rounds para gerar o salt
+    sequelize.query(`INSERT INTO usuarios (usarname, email, senha, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)`, 
+    
+        { replacements: [req.body.usarname, req.body.email, senhaEncriptada,new Date(), new Date() ] }
     )
-        .then(([results, metadata]) => {
-            res.status(201).json({
-                success: true,
-                message: "Usuário criado com sucesso",
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                success: false,
-                message: `Erro ao criar o usuário: ${error.message}`,
-            });
+    
+        res.status(201).json({
+            success: true,
+            message: "usuario criado com sucesso",
         });
+    }catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 });
 
 // Rota PUT: Atualiza a senha de um usuário pelo ID

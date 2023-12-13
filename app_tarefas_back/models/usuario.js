@@ -1,8 +1,10 @@
+// Importando as dependências necessárias
 const db = require('../sequelize.js');
 const Sequelize = require("sequelize");
 
+// Definindo o modelo 'Usuario' para usuários no banco de dados
 const Usuario = db.define('Usuario', {
-  // Model attributes are defined here
+  // Definindo atributos do modelo
   idusuario: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -12,24 +14,21 @@ const Usuario = db.define('Usuario', {
   usarname: {
     type: Sequelize.STRING,
     allowNull: false,
-    // allowNull defaults to true
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
-    // allowNull defaults to true
   },
   senha: {
     type: Sequelize.STRING,
     allowNull: false,
-    // allowNull defaults to true
   }
-}, {
-  // Other model options go here
-});
+}, 
+);
 
+// Sincronizando o modelo com o banco de dados
 Usuario.sync();
+
+// Exportando o modelo 'Usuario' para uso externo
 module.exports = Usuario;
 
-// `sequelize.define` also returns the model
-//console.log(User === sequelize.models.User); // true

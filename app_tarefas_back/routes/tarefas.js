@@ -48,7 +48,7 @@ router.get('/:id', async (req, res) => {
         });
 });
 
-//Filtro por titulo ou por status
+//Filtro por titulo
 router.get("/filtro/:palavra", async(req,res)=> {
     const palavra = req.params.palavra; // palavra ou titulo a pesquisar
     sequelize.query(`SELECT * FROM tarefas WHERE titulo LIKE '%${palavra}%'`)

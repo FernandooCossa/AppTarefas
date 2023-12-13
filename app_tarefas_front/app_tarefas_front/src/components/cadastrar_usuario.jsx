@@ -1,57 +1,60 @@
-//Componente para incluir livros no banco de dados
-//declaração da função do componente IncluirLivros
 import { useForm } from "react-hook-form";
 import { api } from "./config_axios";
 import { useState } from "react";
-//register serve para definir os nomes dos campos do form (validações)
-//handleSubmit, para indicar o método a ser acionado no evento onSubmit do form
-//form onSubmit={handleSubmit(salvar)}
-const cadastrarUsuario = () => {
-    const{ register, handleSubmit } = useForm();
+
+const CadastrarUsuario = () => {
+    // Utilizando o hook useForm do react-hook-form para gerenciar o formulário
+    const { register, handleSubmit } = useForm();
+    // Utilizando o estado para controlar a exibição de mensagens de aviso
     const [aviso, setAviso] = useState("");
-    //método chamado ao enviar form onSubmit
-    const salvar = async (campos) => {  
+
+    // Função para lidar com o envio do formulário
+    const salvar = async (campos) => {
         try {
-                    const response = await api.post("usuario", campos); // aqui vai a rota
-                    setAviso(`usuario cadastrado com sucesso!"
-                    ${response.data.id}`);
-                } catch (error) {
-                    setAviso("Erro ao cadastrar usuario!");
-                }
+            // Enviando uma solicitação para a API com os campos do formulário
+            const response = await api.post("usuario", campos); // Aqui vai a rota
+            // Atualizando o estado com uma mensagem de sucesso
+            setAviso(`Usuário cadastrado com sucesso!`);
+        } catch (error) {
+            // Em caso de erro, exibindo uma mensagem de erro
+            setAviso("Erro ao cadastrar usuário!");
+        }
     }
-    //JSON.stringify() converte um objeto javascript para uma String JSON 
-    //alert(JSON.stringify(campos));
-    //lá no html puro usavamos titulo.value para pegar valor
-    
-    //aqui é o que vai ser exibido em tela
-    return ( 
+
+    return (
         <div className="container">
-            <h4 className="fst-italic mt-3"> Cadastrar Usuario</h4>
+            <h4 className="fst-italic mt-3">Cadastrar Usuário</h4>
+            {/* Utilizando o formulário e associando a função de envio */}
             <form onSubmit={handleSubmit(salvar)}>
                 <div className="form-group">
                     <label htmlFor="usarname">Nome</label>
+                    {/* Campo de entrada para o nome do usuário */}
                     <input type="text" className="form-control" id="usarname"
-                    required autoFocus {...register("usarname")}/>
+                        required autoFocus {...register("usarname")} />
                 </div>
                 <div className="form-group mt-2">
                     <label htmlFor="email">Email</label>
-                        <input type="text" className="form-control" id="email"
-                        required {...register("email")}/>
+                    {/* Campo de entrada para o email do usuário */}
+                    <input type="text" className="form-control" id="email"
+                        required {...register("email")} />
                 </div>
                 <div className="form-group mt-2">
                     <label htmlFor="senha">Senha</label>
-                        <input type="password" className="form-control" id="senha"
-                        required {...register("senha")}/>
+                    {/* Campo de entrada para a senha do usuário */}
+                    <input type="password" className="form-control" id="senha"
+                        required {...register("senha")} />
                 </div>
-            
+
+                {/* Botão de envio e botão de limpar o formulário */}
                 <input type="submit" className="btn btn-primary mt-3"
-                value="Enviar" />
+                    value="Enviar" />
                 <input type="reset" className="btn btn-danger mt-3 ms-3"
-                value="Limpar"/>
-        </form>
-        <div className="alert"></div>
+                    value="Limpar" />
+            </form>
+            {/* Exibição da mensagem de aviso */}
+            <div className="alert">{aviso}</div>
         </div>
-    )
+    );
 }
 
-export default cadastrarUsuario;
+export default CadastrarUsuario;
