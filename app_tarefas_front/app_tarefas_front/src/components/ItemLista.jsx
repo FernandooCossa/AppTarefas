@@ -23,7 +23,7 @@ const ItemLista = ({
                 {/* Ícone de exclusão com evento de clique para chamar a função de exclusão */}
                 <i className="exclui text-danger fw-bold" title="Excluir" onClick={excluirClick}>&#10008;</i>
                 {/* Ícone de alteração com evento de clique para chamar a função de alteração */}
-                <i className="altera text-success fw-bold ms-2" title="Alterar" onClick={alterarClick}>&#36;</i>
+                <i className="altera text-success fw-bold ms-2" title="Alterar" onClick={alterarClick}>&#10132;</i>
             </td>
         </tr>
     );

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LogoutButton from "./logout";
 
 const MenuSuperior = () => {
   return (
@@ -16,7 +17,9 @@ const MenuSuperior = () => {
           <li className="nav-item">
             <Link to="/user" className="nav-link">Cadastrar Usuário</Link>
           </li>
-          
+          <li className="nav-item">
+            <LogoutButton />
+          </li>
         </ul>
       </div>
     </nav>

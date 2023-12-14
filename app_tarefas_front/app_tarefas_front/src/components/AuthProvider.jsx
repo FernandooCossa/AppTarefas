@@ -1,12 +1,14 @@
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
 
-// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
-    const [autenticado, setAutenticado] = useState(false);
+    const [autenticado, setAutenticado] = useState(() => {
+        // Inicializa o estado com base no localStorage
+        return localStorage.getItem('autenticado') === 'true';
+    });
 
     const login = () => {
         setAutenticado(true);
@@ -15,6 +17,11 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setAutenticado(false);
     };
+
+    // Efeito para persistir o estado no localStorage
+    useEffect(() => {
+        localStorage.setItem('autenticado', autenticado.toString());
+    }, [autenticado]);
 
     return (
         <AuthContext.Provider value={{ autenticado, login, logout }}>

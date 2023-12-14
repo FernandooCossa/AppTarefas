@@ -18,7 +18,7 @@ const ManutencaoTarefas = () => {
             alert(`Erro: Não foi possível obter os dados: ${error}`);
         }
     }
-
+    
     // Define o método que será executado assim que o componente for renderizado
     useEffect(() => {
         obterLista();
@@ -51,14 +51,13 @@ const ManutencaoTarefas = () => {
         }
         try {
             await api.delete(`tarefa/${id}`);
-            // Formar uma nova lista de tarefas sem a tarefa que foi excluída
-            setTarefas(tarefas.filter(tarefa => tarefa.id !== id));
-            // Recarregar a página para atualizar a lista
-            location.reload();
+            // Atualize o estado local para refletir a exclusão
+            setTarefas(tarefas => tarefas.filter(tarefa => tarefa.idtarefas !== id));
         } catch (error) {
             alert(`Erro: Não foi possível excluir a tarefa ${titulo}: ${error}`);
         }
     }
+    
 
     // Função para alterar o status de uma tarefa
     const alterar = async (id, titulo) => {
@@ -74,7 +73,6 @@ const ManutencaoTarefas = () => {
             // Atualizando a lista de tarefas
             obterLista();
             // Recarregar a página para atualizar a lista
-            location.reload();
         } catch (error) {
             alert(`Erro: Não foi possível alterar a tarefa ${titulo}: ${error}`);
         }
@@ -120,7 +118,7 @@ const ManutencaoTarefas = () => {
                             data_criacao={tarefa.data_criacao}
                             data_limite={tarefa.data_limite}
                             excluirClick={() => excluir(tarefa.idtarefas, tarefa.titulo)}
-                            alterarClick={() => alterar(tarefa.idtarefas, tarefa.titulo)}
+                            alterarClick={() => alterar(tarefa.idtarefas, tarefa.titulo)} 
                         />
                     ))}
                 </tbody>

@@ -14,7 +14,7 @@ const CadastrarTarefas = () => {
             // Enviando uma solicitação para a API com os campos do formulário
             const response = await api.post("tarefa", campos); // Aqui vai a rota
             // Atualizando o estado com uma mensagem de sucesso
-            setAviso(`Tarefa incluída com sucesso! ID: ${response.data.id}`);
+            setAviso(`Tarefa incluída com sucesso!`);
         } catch (error) {
             // Em caso de erro, exibindo uma mensagem de erro
             setAviso("Erro ao incluir tarefa!");
