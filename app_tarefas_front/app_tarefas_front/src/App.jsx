@@ -6,6 +6,7 @@ import ManutencaoTarefas from './components/manutencao_tarefas';
 import FormularioLogin from './components/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider, useAuth } from './components/AuthProvider';
+//import './css/index.css';
 
 // Importando as bibliotecas necessárias para roteamento
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
